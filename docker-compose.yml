@@ -1,0 +1,32 @@
+version: "3.8" # fileformat
+
+services:
+  app:
+    # image: alteon2021/portal-stream
+    build: .
+    command: npm start 
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - 3000:3000
+    depends_on:
+    - db
+  db:
+    image: mysql:5.7
+    command: mysqld --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: saboroso
+      MYSQL_USER: alteon
+      MYSQL_PASSWORD: alteon
+    # Parâmetros de volumes serve para persistir os dados localmente,
+    # caso não queira perder tudo toda vez que derrubar o container
+    volumes:
+      - mysql_data:/var/lib/mysql/
+    # Expõe a porta do docker para ser conectada por algum SGBD ex. Dbeaver
+    # para se conectar de fora do docker ao banco de dados use host localhost porta 3306
+    ports:
+      - "3306:3306"
+volumes:
+  mysql_data:

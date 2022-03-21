@@ -1,0 +1,3 @@
+node_modules/
+.dockerignore
+public/admin/bower_components/

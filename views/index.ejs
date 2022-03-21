@@ -1,11 +1,28 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
+
+<%- include("inc/head") -%>
+
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+
+    <div class="gtco-loader"></div>
+
+    <div id="page">
+
+      <%- include("inc/header-menu") -%>
+      <%- include("inc/header-index") -%>
+      <%- include("inc/content/menus") -%>
+      <%- include("inc/content/services") -%>
+      <%- include("inc/content/text") -%>
+      <%- include("inc/content/facts") -%>
+      <%- include("inc/content/subscribe") -%>
+      <%- include("inc/footer") -%>
+    
+    </div>
+    
+    <%- include("inc/footer-gototop") -%>
+    <%- include("inc/footer-scripts") -%>
+  
   </body>
+
 </html>

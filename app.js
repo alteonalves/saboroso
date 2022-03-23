@@ -17,11 +17,15 @@ app.set('view engine', 'ejs');
 
 // ioredis
 // Conexão com o redis no container
-const Redis = require("ioredis")
-let redisClient = new Redis({host: 'redis', port: 6379, password: 'redisAlteon2022!'})
+const Redis = require("ioredis");
+let redisClient = new Redis({
+  host: 'redis',
+  port: 6379,
+  password: 'redisAlteon2022!'
+});
 
 app.use(session({
-  store: new RedisStore({client: redisClient}),
+  store: new RedisStore({ client: redisClient }),
   secret: "p@$$w0rd",
   resave: true,
   saveUninitialized: true
@@ -37,12 +41,12 @@ app.use('/', indexRouter);
 app.use('/admin', adminRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

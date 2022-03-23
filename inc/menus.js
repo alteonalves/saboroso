@@ -10,6 +10,6 @@ module.exports = {
                     }
                     resolve(results);
                 });
-        })
+        });
     }
 }

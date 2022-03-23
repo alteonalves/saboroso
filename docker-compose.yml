@@ -10,7 +10,8 @@ services:
     ports:
       - 3000:3000
     depends_on:
-    - db
+    - redis
+    - db 
   db:
     image: mysql:5.7
     command: mysqld --default-authentication-plugin=mysql_native_password
@@ -28,5 +29,10 @@ services:
     # para se conectar de fora do docker ao banco de dados use host localhost porta 3306
     ports:
       - "3306:3306"
+  redis:
+    image: redis:latest
+    command: redis-server --requirepass redisAlteon2022!
+    ports:
+      - "6379:6379"
 volumes:
   mysql_data:

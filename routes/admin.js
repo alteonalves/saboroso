@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const users = require("./../inc/users");
 const admin = require("./../inc/admin");
+const menus = require("./../inc/menus");
 
 router.use(function (req, res, next) {
 
@@ -21,8 +22,8 @@ router.use(function (req, res, next) {
 
 router.get("/", function (req, res, next) {
     admin.dashboard().then(data => {
-        res.render("admin/index", admin.getParams(req, { 
-            data 
+        res.render("admin/index", admin.getParams(req, {
+            data
         }));
     }).catch(err => {
         console.log(err);
@@ -68,7 +69,11 @@ router.get("/emails", function (req, res, next) {
 });
 
 router.get("/menus", function (req, res, next) {
-    res.render("admin/menus", admin.getParams(req));
+    menus.getMenus().then(data => {
+        res.render("admin/menus", admin.getParams(req, {
+            data
+        }));
+    });
 });
 
 router.get("/reservations", function (req, res, next) {

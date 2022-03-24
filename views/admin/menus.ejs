@@ -138,8 +138,11 @@
     <!-- /.modal-dialog -->
   </div>
 <%- include("inc/footer") -%>
-<script src=""></script>
+<script src="/js/hcode-filereader.js"></script>
 <script>
+  
+  new HcodeFileReader("#modal-create [type=file]", "#modal-create img");
+  new HcodeFileReader("#modal-update [type=file]", "#modal-update img");
   
   const formCreate = document.querySelector('#modal-create form');
 
@@ -170,6 +173,7 @@
       for (let name in data) {
         switch (name) {
           case "photo":
+            formUpdate.querySelector('img').src = '/' + data[name];
             break;
           default:
             const input = formUpdate.querySelector(`[name=${name}]`);
@@ -177,9 +181,9 @@
             break;
         }
       }
-      
-      $("#modal-update").modal('show');
 
+      $("#modal-update").modal('show');
+    
     });
   });
 </script>

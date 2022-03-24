@@ -64,14 +64,14 @@
               </thead>
               <tbody>
                 <% data.forEach(row => { %>
-                <tr data-row="<%= JSON.stringify(row.id) %>">
+                <tr data-row="<%= JSON.stringify(row) %>">
                   <td><%= row.id %></td>
                   <td><%= row.name %></td>
                   <td><%= row.email %></td>
                   <td><%= row.people %></td>
-                  <td><%= row.date %></td>
+                  <td><%= moment(row.date).format("DD [de] MMMM [de] YYYY") %></td>
                   <td><%= row.time %></td>
-                  <td><button type="button" class="btn btn-xs btn-info btn-update" data-toggle="modal" data-target="#modal-update"><i
+                  <td><button type="button" class="btn btn-xs btn-info btn-update"><i
                         class="fa fa-pencil"></i> Editar</button>&nbsp;<button type="button" class="btn btn-xs btn-danger btn-delete"><i
                         class="fa fa-trash"></i> Excluir</button></td>
                 </tr>
@@ -198,6 +198,7 @@
       <!-- /.modal-dialog -->
     </div>
 <%- include("inc/footer") -%>
+<script src="/js/moment.min.js"></script>
 <script src="/js/hcode-formsave.js"></script>
 <script>
   const formCreate = document.querySelector('#modal-create form');
@@ -215,4 +216,30 @@
   }).catch(err => {
     console.log(err);
   });
+
+  [...document.querySelectorAll('.btn-update')].forEach(btn => {
+    btn.addEventListener('click', e=> {
+      
+      const tr = e.composedPath().find(el => { return (el.tagName.toUpperCase()=== 'TR'); });
+      const data = JSON.parse(tr.dataset.row);
+      
+      for (let name in data) {
+        
+        const input = formUpdate.querySelector(`[name=${name}]`);
+        
+        switch (name) {
+          case 'date':
+            if (input) input.value = moment(data[name]).format('YYYY-MM-DD');
+            break
+          default:
+            if (input) input.value = data[name];
+            break;
+        }
+      }
+
+      $("#modal-update").modal('show');
+    
+    });
+  });
+
 </script>

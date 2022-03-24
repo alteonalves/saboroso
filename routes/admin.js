@@ -4,6 +4,9 @@ const users = require("./../inc/users");
 const admin = require("./../inc/admin");
 const menus = require("./../inc/menus");
 const reservations = require("./../inc/reservations");
+const moment = require('moment');
+
+moment.locale('pt-BR');
 
 router.use(function (req, res, next) {
 
@@ -99,7 +102,8 @@ router.get("/reservations", function (req, res, next) {
         res.render("admin/reservations",
             admin.getParams(req, {
                 date: new Date(),
-                data
+                data,
+                moment
             }));
     });
 });

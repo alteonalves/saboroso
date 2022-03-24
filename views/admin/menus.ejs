@@ -42,8 +42,7 @@
                 <td><%= row.title %></td>
                 <td><%= row.description %></td>
                 <td><%= row.price %></td>
-                <td><button type="button" class="btn btn-xs btn-info btn-update" data-toggle="modal"
-                    data-target="#modal-update"><i class="fa fa-pencil"></i> Editar</button>&nbsp;<button type="button"
+                <td><button type="button" class="btn btn-xs btn-info btn-update"><i class="fa fa-pencil"></i> Editar</button>&nbsp;<button type="button"
                     class="btn btn-xs btn-danger btn-delete"><i class="fa fa-trash"></i> Excluir</button></td>
               </tr>
               <% }); %>
@@ -139,6 +138,7 @@
     <!-- /.modal-dialog -->
   </div>
 <%- include("inc/footer") -%>
+<script src=""></script>
 <script>
   
   const formCreate = document.querySelector('#modal-create form');
@@ -158,5 +158,28 @@
       window.location.reload();
     });
   
+  });
+
+  const formUpdate = document.querySelector('#modal-update form');
+  
+  [...document.querySelectorAll('.btn-update')].forEach(btn => {
+    btn.addEventListener('click', e=> {
+      const tr = e.composedPath().find(el => { return (el.tagName.toUpperCase()=== 'TR'); });
+      const data = JSON.parse(tr.dataset.row);
+
+      for (let name in data) {
+        switch (name) {
+          case "photo":
+            break;
+          default:
+            const input = formUpdate.querySelector(`[name=${name}]`);
+            if (input) input.value = data[name];
+            break;
+        }
+      }
+      
+      $("#modal-update").modal('show');
+
+    });
   });
 </script>

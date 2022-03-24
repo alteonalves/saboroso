@@ -5,11 +5,40 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const session = require('express-session');
 let RedisStore = require('connect-redis')(session);
+const formidable = require('formidable');
 
 var indexRouter = require('./routes/index');
 var adminRouter = require('./routes/admin');
 
 var app = express();
+
+app.use(function (req, res, next) {
+
+  if (req.method.toLocaleLowerCase() === 'post') {
+    const form = formidable({
+      uploadDir: path.join(__dirname, "/public/images"),
+      keepExtensions: true
+    });
+
+    form.parse(req, function (err, fields, files) {
+      if (err) {
+        console.log(err);
+        next();
+      }
+      
+      req.fields = fields;
+      req.files = files;  
+      
+      next();
+    
+    });
+    
+  } else {
+    
+    next();
+
+  }
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -17,9 +46,11 @@ app.set('view engine', 'ejs');
 
 // ioredis
 // Conexão com o redis no container
+
 const Redis = require("ioredis");
+
 let redisClient = new Redis({
-  host: 'redis',
+host: 'redis',
   port: 6379,
   password: 'redisAlteon2022!'
 });

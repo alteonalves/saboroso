@@ -24,7 +24,7 @@ module.exports = {
                 fields.price,
             ];
 
-            if (files.photo.name) {
+            if (fields.photo) {
                 queryPhoto = ',photo = ?';
                 params.push(fields.photo);
             }
@@ -45,7 +45,7 @@ module.exports = {
 
             } else {
 
-                if (!files.photo.name) {
+                if (!fields.photo) {
                     reject('Envie a foto do prato.');
                 }
 

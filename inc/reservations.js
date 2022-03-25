@@ -55,8 +55,8 @@ module.exports = {
 
             } else {
                 query = `
-                INSERT INTO tb_menus (title, description, price, photo)
-                VALUES (?, ?, ?, ?)
+                INSERT INTO tb_reservations (name, email, people, date, time)
+                VALUES (?, ?, ?, ?, ?)
                 `;
             }
             conn.query(query,

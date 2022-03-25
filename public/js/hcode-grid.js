@@ -27,6 +27,10 @@ class HcodeGrid {
             formUpdate: '#modal-update form',
             btnUpdate: '.btn-update',
             btnDelete: '.btn-delete',
+            onUpdateLoad: (form, name, data) => {
+                const input = form.querySelector(`[name=${name}]`);
+                if (input) input.value = data[name];
+            }
         }, configs);
 
         this.initForms();
@@ -50,8 +54,6 @@ class HcodeGrid {
         }).catch(err => {
             this.fireEvent('afterFormUpdateError');
         });
-
-
     }
 
     fireEvent(name, args) {

@@ -1,8 +1,8 @@
-FROM node:10.19.0
+FROM node:latest
 
 # Create app directory
 WORKDIR /usr/src/app
 
 COPY . ./usr/src/app
 
-RUN npm install
+RUN cd ./usr/src/app && npm install

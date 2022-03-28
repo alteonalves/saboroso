@@ -4,9 +4,9 @@ services:
   app:
     # image: alteon2021/portal-stream
     build: .
-    command: npm start 
-    volumes:
-      - .:/usr/src/app
+    command: npm start
+    volumes: 
+     - .:/usr/src/app
     ports:
       - 3000:3000
     depends_on:

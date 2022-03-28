@@ -6,6 +6,7 @@
     "start": "nodemon ./bin/www"
   },
   "dependencies": {
+    "bower": "^1.8.14",
     "connect-redis": "^6.1.3",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",

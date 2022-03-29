@@ -50,6 +50,9 @@
           </div>
           <!-- /.box-header -->
           <div class="box-body no-padding">
+            <div style="padding:10px">
+                <canvas id="chart" style="height: 250px;"></canvas>
+            </div>
             <table class="table table-striped table-hover">
               <thead>
                 <tr>
@@ -196,6 +199,7 @@
       <!-- /.modal-dialog -->
     </div>
 <%- include("inc/footer") -%>
+<script src="/admin/bower_components/chart.js/dist/Chart.min.js"></script>
 <script src="/js/moment.min.js"></script>
 <script src="/js/hcode-formsave.js"></script>
 <script src="/js/hcode-grid.js"></script>
@@ -213,6 +217,44 @@
         default:
           if (input) input.value = data[name];
           break;
+      }
+    }
+  });
+
+  const chartId = document.querySelector('#chart').getContext('2d');
+  const chart = new Chart(chartId, {
+    type: 'doughnut', 
+    data: {
+      labels : ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+      datasets: [{
+        data: [3, 5, 6, 2, 7, 6],
+        label: 'Reserva',
+        backgroundColor: 'rgb(54, 162, 235)',
+        //borderColor: 'rgb(54, 162, 235)',
+        fill: true,
+        pointBackgrounColor: '#FFF'
+      }]
+    },
+    options: {
+      tooltips: {
+        mode: 'index',
+        intersect: false,
+      },
+      scales: {
+        xAxes: [{
+          display: true,
+          scaleLabel: {
+            display: true,
+            labelString: 'Mês'
+          }
+        }],
+        xAxes: [{
+          display: true,
+          scaleLabel: {
+            display: true,
+            labelString: 'Reservas'
+          }
+        }]
       }
     }
   });

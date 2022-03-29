@@ -6,25 +6,27 @@ var logger = require('morgan');
 const session = require('express-session');
 let RedisStore = require('connect-redis')(session);
 const formidable = require('formidable');
-var http = require('http');
-const socket = require('socket.io');
+const http = require('http');
+const { Server } = require('socket.io');
 
-var indexRouter = require('./routes/index');
-var adminRouter = require('./routes/admin');
 
 var app = express();
 
-var http = http.Server(app);
-var io = socket(http);
+const server = http.createServer(app);
+const io = new Server(server);
 
-io.on('connection', function(socket){
-
+io.on('connection', (socket) => {
   console.log('Conectado!');
 });
 
+var adminRouter = require('./routes/admin')(io);
+var indexRouter = require('./routes/index')(io);
+
 app.use(function (req, res, next) {
 
-  if (req.method.toLocaleLowerCase() === 'post') {
+  req.body = {};
+  
+  if (req.method.toLowerCase() === 'post') {
     const form = formidable({
       uploadDir: path.join(__dirname, "/public/images"),
       keepExtensions: true
@@ -95,6 +97,6 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 
-http.listen(3000, function(){
-  console.log('Servidor em execução')
+server.listen(3000, () => {
+  console.log('Servidor em execução');
 });

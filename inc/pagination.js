@@ -43,6 +43,62 @@ class Pagination {
     getTotalPages() {
         return this.totalPages;
     }
+
+    getNavigation(params) {
+        let limitPagesNav = 5; // 5 por página
+        let links = [];
+        let nrStart = 0;
+        let nrEnd = 0;
+
+        if (this.getTotalPages() < limitPagesNav) {
+            limitPagesNav = this.getTotalPages();
+        }
+
+        if (this.getCurrentPage() - parseInt(limitPagesNav / 2) < 1) {
+            nrStart = 1;
+            nrEnd = limitPagesNav;
+        } else if ((this.getCurrentPage() + parseInt(limitPagesNav / 2)) > this.getTotalPages()) {
+            nrStart = this.getTotalPages - limitPagesNav;
+            nrEnd = this.getTotalPages();
+        } else {
+            nrStart = this.getCurrentPage() - parseInt(limitPagesNav / 2);
+            nrEnd = this.getCurrentPage() + parseInt(limitPagesNav / 2);
+        }
+
+        if (this.getCurrentPage() > 1) {
+            links.push({
+                text: '«',
+                href: '?' + this.getQueryString(Object.assign({}, params, {page: this.getCurrentPage() - 1})),
+            });
+        }
+
+        for (let x = nrStart; x<=nrEnd; x++) {
+            links.push({
+                text: x,
+                href: '?' + this.getQueryString(Object.assign({}, params, {page: x})),
+                active: (x === this.getCurrentPage())
+            });
+        }
+
+        if (this.getCurrentPage() < this.getTotalPages()) {
+            links.push({
+                text: '»',
+                href: '?' + this.getQueryString(Object.assign({}, params, {page: this.getCurrentPage() + 1})),
+            });
+        }
+        return links;
+    }
+
+    getQueryString(params) {
+        
+        let queryString = [];
+        
+        for (let name in params) {
+            queryString.push(`${name}=${params[name]}`);
+        }
+        
+        return queryString.join("&");
+    }
 }
 
 module.exports = Pagination;

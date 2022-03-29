@@ -124,12 +124,19 @@ router.delete("/menus/:id", function (req, res, next) {
 
 router.get("/reservations", function (req, res, next) {
 
-    reservations.getReservations().then(data => {
+    const start  = (req.query.start) ? req.query.start : moment().subtract(1, "year").format("YYYY-MM-DD");
+    const end  = (req.query.end) ? req.query.end : moment().format("YYYY-MM-DD");
+    console.log('Start date ', start, 'End date ', end);
+    reservations.getReservations(req).then(pag => {
         res.render("admin/reservations",
             admin.getParams(req, {
-                date: new Date(),
-                data,
-                moment
+                date: {
+                    start, 
+                    end
+                },
+                data: pag.data,
+                moment, 
+                links: pag.links
             }));
     });
 });

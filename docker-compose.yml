@@ -2,11 +2,13 @@ version: "3.8" # fileformat
 
 services:
   app:
-    # image: alteon2021/portal-stream
     build: .
     command: npm start
     volumes: 
      - .:/usr/src/app
+     - /usr/src/app/node_modules
+    environment:
+      - NODE_ENV=dev
     ports:
       - 3000:3000
     depends_on:
